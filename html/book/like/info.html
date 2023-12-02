@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>LIBOOKE</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <style>
+
+        #qq {
+            width: 450px;
+            /*宽*/
+            height: 230px;
+            /*高*/
+            background: #fff;
+            /*背景颜色*/
+            margin: 10px auto 30px;
+            border-radius: 5px;
+            /*Html5 圆角*/
+        }
+
+        #qq p {
+            font-size: 24px;
+            color: #666;
+            font-family: "微软雅黑", serif;
+            line-height: 45px;
+            text-indent: 20px;
+        }
+
+        #qq .message {
+            width: 430px;
+            height: 130px;
+            margin: 0 auto;
+            overflow: hidden;
+            outline: none;
+            border: 1px solid #ddd;
+            padding: 8px;
+            box-sizing: border-box;
+            font-size: 14px;
+            -webkit-background-clip: text;
+            background-image: linear-gradient(to right, #778899 0%, #333 100%);
+            /*粗细 风格 颜色*/
+        }
+
+        #qq .But {
+            width: 430px;
+            height: 35px;
+            margin: 15px auto 0;
+            position: relative;
+        }
+
+        #qq .But img.bq {
+            float: left;
+            /*左浮动*/
+        }
+
+        #qq .But span.submit {
+            width: 80px;
+            height: 30px;
+            background: #ff8140;
+            display: block;
+            float: right;
+            /*右浮动*/
+            line-height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            /*手指*/
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
+            font-family: "微软雅黑", serif;
+        }
+
+        /*face begin*/
+        #qq .But .face {
+            width: 440px;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 12px #666;
+            position: absolute;
+            /*绝对定位*/
+            top: 21px;
+            left: 15px;
+            display: none;
+            /*隐藏*/
+        }
+
+        #qq .But .face ul {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        #qq .But .face ul li {
+            width: 30px;
+            height: 30px;
+            list-style-type: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /*msgCon begin*/
+        .msgCon {
+            width: 600px;
+            margin: 0px auto;
+            margin-bottom: 60px;
+        }
+
+        .msgCon .msgBox {
+            background: #fff;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 16px;
+            border-radius: 4px;
+        }
+
+        .msgCon .msgBox .headUrl {
+            width: 100%;
+            height: 60px;
+            border-bottom: 1px dotted #ddd;
+            display: flex;
+            align-items: center;
+        }
+
+        .msgCon .msgBox .headUrl img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%
+        }
+
+        .msgCon .msgBox .headUrl div {
+            flex: 1;
+            display: flex;
+            flex-flow: column;
+            font-size: 16px;
+            margin-left: 16px;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to top, #b224ef 0%, #7579ff 100%);
+        }
+
+        .msgCon .msgBox .headUrl div .time {
+            font-size: 14px;
+            margin-top: 6px;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
+        }
+
+        .msgCon .msgBox .headUrl a {
+            font-size: 14px;
+            padding: 10px;
+            color: salmon;
+            cursor: pointer;
+        }
+
+        .msgCon .msgBox .msgTxt {
+            font-size: 14px;
+            color: #666;
+            min-height: 40px;
+            line-height: 24px;
+            padding: 10px;
+            box-sizing: border-box;
+            word-wrap: break-word;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #778899 0%, #333 100%);
+        }
+    </style>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            border-radius: 10px;
+        }
+
+        header {
+            height: 100px;
+            color: #d0e5f2;
+            background-color: #F6F6F0;
+        }
+
+        .header-content {
+            width: 65%;
+            margin: 20px auto;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .logo-name {
+            font-size: 60px;
+            line-height: 60px;
+            color: #58402A;
+            font-weight: bold;
+        }
+
+        .login-tap {
+            color: #0C0C0C;
+            user-select: none;
+        }
+    </style>
+    <style>
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            margin-left: -150px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input[type="text"] {
+            width: 400px;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .search-box button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 12px;
+            background-color: #9D9C92;
+            color: #fff;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .search-box button:hover {
+            background-color: #e1e0cd;
+        }
+
+        .div-content {
+            width: 70%;
+            min-width: 500px;
+            margin: 0 auto;
+            /*height: 900px;*/
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            /*background-color: #c5aeae;*/
+        }
+
+        .book-item {
+            width: 50%;
+            min-width: 210px;
+            height: 380px;
+            background-color: #fff;
+            margin: 10px;
+            position: relative;
+        }
+        .book-desc{
+            position: absolute;
+            top: 0;
+            left: 100%;
+            width: 120%;
+            padding: 15px;
+            height:380px;
+        }
+
+        .book-image {
+            width: 100%;
+            height: 85%;
+            background-color: #aec5c5;
+            border-radius: 10px 10px 0 0;
+            position: relative;
+        }
+
+        .book-name {
+            font-size: 20px;
+            line-height: 35px;
+            height: 35px;
+            font-weight: bold;
+            color: #37a;
+            user-select: none;
+        }
+
+        .book-name:hover {
+            background-color: #37a;
+            color: white;
+        }
+
+        .book-author {
+            font-size: 16px;
+            margin-top: 3px;
+        }
+
+        .book-image-img {
+            position: absolute;
+            bottom: 0;
+            max-width: 100%;
+            max-height: 100%;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .div-1 {
+            width: 35%;
+        }
+
+        .div-2 {
+            width: 65%;
+        }
+
+        .favorite-button {
+            background-color: #ffcc00;
+            border: none;
+            color: #ffffff;
+            padding: 10px 20px;
+            margin-left: 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: all 0.15s ease;
+        }
+
+        .favorite-button:hover {
+            background-color: #ffdb4d;
+            transform: translateY(-1px);
+            box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .book-title {
+            color: #0C0C0C;
+            font-size: 35px;
+        }
+
+        .msg-content {
+            width: 100%;
+            height: calc(100vh - 140px);
+            overflow-y: scroll;
+        }
+
+        #name {
+            color: #37a;
+            font-size: large;
+        }
+        .favorite{
+            display: inline-block;
+            margin-left: 10px;
+            color: #eea856;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-content">
+        <p class="logo-name">LIBOOKE</p>
+        <div class="search-container">
+            <div class="search-box">
+<!--                <input type="text" placeholder="book name,author">-->
+<!--                <button id="search-bt" type="submit">Search</button>-->
+            </div>
+        </div>
+        <span class="login-tap"><a href="./login.html">login/register</a> <span id="name"></span></span>
+    </div>
+</header>
+<div class="div-content">
+    <div id="div-1" class="div-1">
+        <div id="main-show">
+            <p class="book-title"></p>
+            <div class="book-item">
+                <a href="#">
+                    <div class="book-image">
+                        <img class="book-image-img" src="">
+                        <span></span>
+                    </div>
+                    <p class="book-name"></p>
+                </a>
+                <p class="book-author"></p>
+            </div>
+            <button class="favorite-button" id="like_book">favorite
+            </button>
+        </div>
+
+        <div id="qq">
+            <p>to comment</p>
+            <div class="message" contentEditable='true'></div>
+            <div class="But">
+                <img src="../images/ej/bba_thumb.gif" class='bq'/>
+                <span class='submit'>published</span>
+                <!--face begin-->
+                <div class="face">
+                    <ul>
+                        <li><img src="../images/ej/smilea_thumb.gif" title="呵呵]"></li>
+                        <li><img src="../images/ej/tootha_thumb.gif" title="嘻嘻]"></li>
+                        <li><img src="../images/ej/laugh.gif" title="[哈哈]"></li>
+                        <li><img src="../images/ej/tza_thumb.gif" title="[可爱]"></li>
+                        <li><img src="../images/ej/kl_thumb.gif" title="[可怜]"></li>
+                        <li><img src="../images/ej/kbsa_thumb.gif" title="[挖鼻屎]"></li>
+                        <li><img src="../images/ej/cj_thumb.gif" title="[吃惊]"></li>
+                        <li><img src="../images/ej/shamea_thumb.gif" title="[害羞]"></li>
+                        <li><img src="../images/ej/zy_thumb.gif" title="[挤眼]"></li>
+                        <li><img src="../images/ej/bz_thumb.gif" title="[闭嘴]"></li>
+                        <li><img src="../images/ej/bs2_thumb.gif" title="[鄙视]"></li>
+                        <li><img src="../images/ej/lovea_thumb.gif" title="[爱你]"></li>
+                        <li><img src="../images/ej/sada_thumb.gif" title="[泪]"></li>
+                        <li><img src="../images/ej/heia_thumb.gif" title="[偷笑]"></li>
+                        <li><img src="../images/ej/qq_thumb.gif" title="[亲亲]"></li>
+                        <li><img src="../images/ej/sb_thumb.gif" title="[生病]"></li>
+                        <li><img src="../images/ej/mb_thumb.gif" title="[太开心]"></li>
+                        <li><img src="../images/ej/ldln_thumb.gif" title="[懒得理你]"></li>
+                        <li><img src="../images/ej/yhh_thumb.gif" title="[右哼哼]"></li>
+                        <li><img src="../images/ej/zhh_thumb.gif" title="[左哼哼]"></li>
+                        <li><img src="../images/ej/x_thumb.gif" title="[嘘]"></li>
+                        <li><img src="../images/ej/cry.gif" title="[衰]"></li>
+                        <li><img src="../images/ej/wq_thumb.gif" title="[委屈]"></li>
+                        <li><img src="../images/ej/t_thumb.gif" title="[吐]"></li>
+                        <li><img src="../images/ej/k_thumb.gif" title="[打哈气]"></li>
+                        <li><img src="../images/ej/bba_thumb.gif" title="[抱抱]"></li>
+                        <li><img src="../images/ej/angrya_thumb.gif" title="[怒]"></li>
+                        <li><img src="../images/ej/yw_thumb.gif" title="[疑问]"></li>
+                        <li><img src="../images/ej/cza_thumb.gif" title="[馋嘴]"></li>
+                        <li><img src="../images/ej/88_thumb.gif" title="[拜拜]"></li>
+                        <li><img src="../images/ej/sk_thumb.gif" title="[思考]"></li>
+                        <li><img src="../images/ej/sweata_thumb.gif" title="[汗]"></li>
+                        <li><img src="../images/ej/sleepya_thumb.gif" title="[困]"></li>
+                        <li><img src="../images/ej/sleepa_thumb.gif" title="[睡觉]"></li>
+                        <li><img src="../images/ej/money_thumb.gif" title="[钱]"></li>
+                        <li><img src="../images/ej/sw_thumb.gif" title="[失望]"></li>
+                        <li><img src="../images/ej/cool_thumb.gif" title="[酷]"></li>
+                        <li><img src="../images/ej/hsa_thumb.gif" title="[花心]"></li>
+                        <li><img src="../images/ej/hatea_thumb.gif" title="[哼]"></li>
+                        <li><img src="../images/ej/gza_thumb.gif" title="[鼓掌]"></li>
+                        <li><img src="../images/ej/dizzya_thumb.gif" title="[晕]"></li>
+                        <li><img src="../images/ej/bs_thumb.gif" title="[悲伤]"></li>
+                    </ul>
+                </div>
+                <!--face end-->
+            </div>
+        </div>
+    </div>
+    <div class="div-2">
+        <div class="msg-content">
+            <div class="msgCon"></div>
+        </div>
+
+    </div>
+</div>
+
+<script src="../lib/layui/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script src="../js/axios.min.js" charset="utf-8"></script>
+<script>
+    const queryString = window.location.search;
+    const urlSearchParams = new URLSearchParams(queryString);
+    const book_id = urlSearchParams.get("book_id")
+
+    function getAllCookies() {
+        const cookies = document.cookie.split(';');
+        const cookieData = {};
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            const [name, value] = cookie.split('=');
+            cookieData[name] = value;
+        }
+        return cookieData;
+    }
+
+    const allCookies = getAllCookies();
+    layui.use(['layer', 'form', 'flow'], function () {
+        const flow = layui.flow;
+        var $ = layui.$;
+        let username = allCookies.username;
+        if (username) {
+            document.getElementById("name").innerHTML = "welcome! "+username+'<a class="favorite" href="./favorite.html">my favorite</a>';
+        }
+        let search = ""
+        let is_like;
+        if (book_id) {
+            axios.get("/api/book/get?book_id=" + book_id).then((resp) => {
+                is_like = resp.data.data.is_like
+                let it = resp.data.data.data[0]
+                let url = it.book_image === "" ? './images/def.jpg' : `/${it.book_image}`;
+                $("#main-show").html(`
+                       <p class="book-title">${it.book_name}</p>
+        <div class="book-item">
+                <div class="book-image">
+                    <img class="book-image-img" src="${url}">
+                    <span></span>
+                </div>
+                <div class="book-desc">${it.book_desc}</div>
+                <p class="book-name">${it.book_name}</p>
+            <p class="book-author">${it.book_author}</p>
+        </div>
+        <button class="favorite-button" id="like_bt">${is_like ? "no favorite" : "favorite"}</button>`)
+                $("#like_bt").click(function (e) {
+                    axios.post("/api/ordinary/like", {book_id: book_id, is_like: !is_like}).then((resp) => {
+                        if (resp.data.code !== 200) {
+                            layer.msg(resp.data.msg);
+                            return false;
+                        }
+                        is_like = resp.data.data.is_like
+                        if (is_like)
+                            layer.msg('favorite success');
+                        else
+                            layer.msg('cancel favorite');
+                        $("#like_bt").html(resp.data.data.is_like ? "no favorite" : "favorite")
+                    }).catch(function (error) {
+                        console.log(error)
+                        layer.msg("You are not logged in, please log in first");
+                    });
+                })
+            })
+
+        }
+        const msgBoxList = []
+        axios.get("/api/ordinary/comment?book_id=" + book_id).then((resp) => {
+            if (resp.data.code !== 200) {
+                layer.msg(resp.data.msg);
+                return false;
+            }
+            msgBoxList.push(...resp.data.data)
+            innerHTMl(msgBoxList.slice().reverse())
+        }).catch(function (error) {
+            layer.msg("server error" + error);
+        });
+        //点击小图片，显示表情
+        $(".bq").click(function (e) {
+            $(".face").slideDown(); //慢慢向下展开
+            e.stopPropagation(); //阻止冒泡事件
+        });
+
+        //在桌面任意地方点击，关闭表情框
+        $(document).click(function () {
+            $(".face").slideUp(); //慢慢向上收
+        });
+
+        //点击小图标时，添加功能
+        $(".face ul li").click(function () {
+            let simg = $(this).find("img").clone();
+            $(".message").append(simg); //将表情添加到输入框
+        });
+
+        //点击发表按扭，发表内容
+        $("span.submit").click(function () {
+            let txt = $(".message").html(); //获取输入框内容
+            if (!txt) {
+                $('.message').focus(); //自动获取焦点
+                return;
+            }
+            let obj = {
+                comment: txt,
+                book_id: book_id
+            }
+            axios.post("/api/ordinary/comment", obj).then((resp) => {
+                if (resp.data.code !== 200) {
+                    layer.msg(resp.data.msg);
+                    return false;
+                }
+                layer.msg('comment success');
+                msgBoxList.unshift(resp.data.data)
+                innerHTMl([resp.data.data])
+                $('.message').html('')
+            }).catch(function (error) {
+                console.log(error)
+                layer.msg("You are not logged in, please log in first");
+            });
+
+        });
+
+        $("body").on('click', '.del', function (tar) {
+            console.log(tar)
+            let index = $(this).parent().parent().index();
+            let c_time = msgBoxList[index].c_time
+            axios.delete("/api/ordinary/comment?c_time=" + c_time,).then((resp) => {
+                if (resp.data.code !== 200) {
+                    layer.msg(resp.data.msg);
+                    return false;
+                }
+                layer.msg('delete success');
+                msgBoxList.splice(index, 1)
+                $(this).parent().parent().remove()
+            }).catch(function (error) {
+                console.log(error)
+                layer.msg("You are not logged in, please log in first");
+            });
+
+        })
+
+
+        function innerHTMl(List) {
+            List = List || []
+
+            List.forEach(item => {
+                let str =
+                    `<div class='msgBox'>
+						<div class="headUrl">
+							<div>
+								<span class="title">${item.username}</span>
+								<span class="time">${item.c_time}</span>
+							</div>
+							${item.username === username ? '<a class="del">删除</a>' : ''}
+						</div>
+						<div class='msgTxt'>
+							${item.comment}
+						</div>
+					</div>`
+                $(".msgCon").prepend(str);
+            })
+        }
+
+        function done(page, next) { // 执行下一页的回调
+            axios.get("/api/book/get_book?page=" + page + "&search=" + search).then((resp) => {
+                setTimeout(function () {
+                    var lis = [];
+                    resp.data.data.list.forEach((it) => {
+                        let url = it.book_image === "" ? './images/def.jpg' : `/${it.book_image}`;
+                        lis.push(
+                            `<div class="book-item">
+                            <a href="#">
+                                <div class="book-image">
+                                    <img class="book-image-img" src="${url}">
+                                </div>
+                                <p class="book-name">${it.book_name}</p>
+                                </a>
+                                <p class="book-author">${it.book_author}</p>
+                            </div>`
+                        )
+                    })
+                    next(lis.join(''), page < 10); // 此处假设总页数为 10
+                }, 520);
+            })
+        }
+
+        flow.load({
+            elem: '#ID-flow-demo', // 流加载容器
+            // scrollElem: '#ID-flow-demo', // 滚动条所在元素，一般不用填，此处只是演示需要。
+            // isAuto: true,
+            end: '没有更多了',
+            done
+            // 模拟数据插入
+
+        })
+
+        document.getElementById("search-bt").addEventListener("click", () => {
+            search = document.querySelector(".search-box input[type='text']").value;
+            document.getElementById("ID-flow-demo").innerHTML = ""
+            flow.load({
+                elem: '#ID-flow-demo', // 流加载容器
+                // scrollElem: '#ID-flow-demo', // 滚动条所在元素，一般不用填，此处只是演示需要。
+                // isAuto: true,
+                end: '没有更多了',
+                done
+            });
+        });
+    })
+
+
+</script>
+</body>
+</html>

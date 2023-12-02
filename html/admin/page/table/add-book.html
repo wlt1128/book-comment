@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es-Es">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">book name</label>
+        <div class="layui-input-block">
+            <input type="text" name="book_name" lay-verify="required" lay-reqtext="book name cannot be blank"
+                   placeholder="Please enter the book name" value="" class="layui-input">
+            <tip>Fill in the name of the book.</tip>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">author name</label>
+        <div class="layui-input-block">
+            <input type="text" name="author" lay-verify="required" lay-reqtext="author name cannot be blank"
+                   placeholder="Please enter the author name" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">description</label>
+        <div class="layui-input-block">
+            <textarea name="description" class="layui-textarea"
+                      placeholder="Please enter the book description"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn layui-btn-normal" id="book-image-choose">select book image</button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">confirm saving</button>
+        </div>
+    </div>
+</div>
+<script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="../../js/axios.min.js" charset="utf-8"></script>
+<script src="../../js/request.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'upload','table'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            table = layui.table;
+            $ = layui.$;
+        var upload = layui.upload;
+        var is_file = false;
+        var up_image = upload.render({
+            elem: '#book-image-choose',
+            url: '', // 实际使用时改成您自己的上传接口即可。
+            auto: false,
+            before() {
+                is_file = true;
+                return true;
+            }
+        });
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            layer.load()
+            up_image.config.url = "/api/save_book?book_name=" + data.field.book_name + "&author=" + data.field.author + "&description=" + data.field.description;
+            up_image.upload();
+            if(!is_file) {
+                axios_instance.post("/save_book?book_name=" + data.field.book_name + "&author=" + data.field.author + "&description=" + data.field.description).then((resp) => {
+                    layer.msg('save success', {icon: 1});
+                }).catch((err) => {
+                    layer.msg('err', {icon: 2});
+                });
+            }
+            else {
+                layer.msg('save success', {icon: 1});
+            }
+            is_file = false;
+            var iframeIndex = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(iframeIndex);
+            layer.closeAll('loading');
+            return false;
+        });
+
+    });
+</script>
+</body>
+</html>
